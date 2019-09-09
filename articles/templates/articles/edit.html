@@ -1,9 +1,9 @@
 {% extends 'articles/base.html' %}
 {% block css %}
-
 edit_title {
   text-align:center;
 }
+
 edit_content {
   display:flex;
   width:500px;
@@ -13,13 +13,8 @@ edit_content {
   align-items: center;
   justify-content: center;
 }
-
-
 {% endblock %}
-
-
 {% block body %}
-
 <div class="edit_content">
   <form action="/articles/{{ article.pk }}/update/" method='GET'>
     <div class="form-group">
