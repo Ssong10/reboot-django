@@ -9,12 +9,13 @@ class Reporter(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
+    image = models.ImageField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
+    # reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
 
 # Article(1) - Comment(N)
 # Comment - content
 class Comment(models.Model):
     content = models.CharField(max_length=50)
-    article = models.ForeignKey(Article,on_delete=models.CASCADE)
+    # article = models.ForeignKey(Article,on_delete=models.CASCADE)

@@ -14,12 +14,11 @@ def new(request):
 
 def create(request):
     article = Article()
-    article.title = request.GET.get('title')
-    article.content = request.GET.get('content')
-    article.created_at = request.GET.get('created_at')
-    article.updated_at = request.GET.get('updated_at')
+    article.title = request.POST.get('title')
+    article.content = request.POST.get('content')
+    article.image = request.FILES.get('image')
     article.save()
-    return redirect(f'/articles/{article.pk}')
+    return redirect(f'/articles/')
 
 def detail(request, article_pk):
     article = Article.objects.get(pk=article_pk)
