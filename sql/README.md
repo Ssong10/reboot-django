@@ -79,6 +79,13 @@
    # orm
    User.objects.create(first_name='승열',last_name='이',age=27,
                        country='충청남도',phone='010-5533-9382',balance=10000)
+   
+   
+   # 2.
+   user = User()
+   user.first_name = '길동'
+   ...
+   user.save()
    ```
 
    ```sql
@@ -155,29 +162,48 @@ user.delete()
 
 3. 나이가 30살 이상인 사람의 인원 수
 
+   > gte : 이상
+   >
+   > gt : 초과
+   >
+   > lte : 이하
+   >
+   > lt : 미만
+
    ```python
    # orm
    User.objects.filter(age__gte=30).count()
    ```
 
-      ```sql
+   ```sql
    -- sql
    SELECT count(*) FROM users_user WHERE age >=30;
-      ```
+   ```
 
 4. 나이가 30이면서 성이 김씨인 사람의 인원 수
 
    ```python
    # orm
    User.objects.filter(age=30,last_name='김').count()
+   User.objects.filter(age=30).filter(last_name='김').count()
    ```
 
-      ```sql
+   ```sql
    -- sql
-   SELECT count(*) FROM users_user WHERE age =30 and last_name="김";
-      ```
+   SELECT count(*) FROM users_user WHERE age =30 and last_name='김';
+   ```
 
 5. 지역번호가 02인 사람의 인원 수
+
+   > exact : 정확히 같을 때 (iexact)
+   >
+   > contains : 포함하는지 (icontains)
+   >
+   > startswith : 시작 값이 같을 때 (istartswith)
+   >
+   > endswith : 끝나는 값이 같을 때 (iendswith)
+   >
+   > i -> case insensitive(대소문자 무시)
 
    ```python
    # orm
@@ -208,7 +234,7 @@ user.delete()
 
    ```python
    # orm
-   User.objects.all().order_by('-age')[:10].values('age','first_name')
+   User.objects.order_by('-age')[:10].values('age','first_name')
    ```
 
       ```sql
@@ -220,7 +246,7 @@ user.delete()
 
    ```python
    # orm
-   User.objects.all().order_by('balance')[:10].values('first_name','balance')
+   User.objects.order_by('balance')[:10].values('first_name','balance')
    ```
 
       ```sql
@@ -232,12 +258,12 @@ user.delete()
 
       ```python
    # orm
-   User.objects.all().order_by('last_name','first_name')[4:5].values('last_name','first_name')
+   User.objects.order_by('-last_name','-first_name')[4:5].values('last_name','first_name')
    ```
     ```sql
    -- sql
    SELECT last_name, first_name FROM users_user
-   ORDER BY last_name, first_name LIMIT 1 OFFSET 4;
+   ORDER BY last_name DESC, first_name DESC LIMIT 1 OFFSET 4;
     ```
 
 
@@ -249,7 +275,7 @@ user.delete()
    ```python
    # orm
    from django.db.models import Avg
-   User.objects.all().aggregate(Avg('age'))
+   User.objects.aggregate(Avg('age'))
    > {'age__avg': 28.23}
    ```
 
@@ -276,7 +302,7 @@ user.delete()
 
    ```python
    # orm
-   User.objects.all().aggregate(Max('balance'))
+   User.objects.aggregate(Max('balance'))
    > {'balance__max': 1000000}
    ```
 
